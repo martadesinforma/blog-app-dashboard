@@ -2,13 +2,15 @@
   <div class="row">
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
       <h3 class="text-center text-theme-primary">New Categories</h3>
-      <p class="text-center mb-5">You can add new categories from here..!</p>
+      <p class="text-center mb-5">You can add {{formStatus}} categories from here..!</p>
 
       <!-- #categoryForm: Esta variable permite hacer referencia al formulario desde dentro de la plantilla HTML.
 
            ngForm: es una directiva que Angular proporciona. Es una directiva que transforma un elemento <form> en un formulario administrado por Angular, proporcionando funcionalidades como validación, seguimiento del estado de los controles, y manejo de los datos del formulario.
 
            ngModel: es una directiva en Angular que permite el enlace de datos bidireccional entre el control del formulario (como un <input>, <select>, etc.) y el modelo de datos en el componente de Angular. El valor ingresado por el usuario se almacena automáticamente en el objeto de formulario bajo categoryForm.value.category.
+
+            El binding bidireccional [(ngModel)] permite sincronizar el valor de un campo de formulario con una propiedad en el componente. [(ngModel)]='formCategory' establece una relación bidireccional entre el campo de entrada y la propiedad formCategory en el componente TypeScript.
 
            name="category": Define el nombre del campo en el formulario. Este nombre se usa como clave en el objeto de datos del formulario que se crea automáticamente. En este caso, el valor ingresado en este campo de entrada se almacenará bajo la clave category en el objeto que gestiona Angular.
            -->
@@ -20,20 +22,53 @@
           class="form-control shadow-effect"
           name="category"
           placeholder="Add New Categories"
-          ngModel
-          #newCategory = 'ngModel'
+          #newCategory='ngModel'
+         [(ngModel)]="formCategory"
           required
-          [ngClass]=" {'is-invalid': newCategory.touched && newCategory.invalid}"
+          [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
           > <!-- El valor que el usuario ingresa en este campo se almacena en la propiedad category del objeto de datos del formulario. Imagina que el usuario ingresa "Electronics" en el campo de entrada. Gracias a ngModel, el valor "Electronics" se asigna automáticamente a categoryForm.value.category -->
-          <div class="alert alert-danger" *ngIf = "newCategory.touched && newCategory.invalid">
+          <div class="alert alert-danger" *ngIf="newCategory.touched && newCategory.invalid">
             Category field is required
           </div>
         </div>
 
         <div class="col-md-2">
-          <button class="btn btn-block btn-info mb-2 btn-theme" [disabled]="categoryForm.invalid">Add Catgerory</button> <!-- Desactiva el botón de envío si el formulario es inválido (si el campo "category" está vacío). -->
+          <button class="btn btn-block btn-info mb-2 btn-theme" [disabled]="categoryForm.invalid">{{formStatus}} Catgerory</button> <!-- Desactiva el botón de envío si el formulario es inválido (si el campo "category" está vacío). -->
         </div>
       </form>
     </div>
+  </div>
+
+  <div class="row mt-5 mb-5">
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6">
+      <div class="card shadow-effect">
+        <div class="card-body">
+          <table class="table row-border hover">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Category</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let category of categoryArray; let i = index">
+                <td>{{i + 1}}</td>
+                <td>{{category.data.category}}</td>
+                <td>
+                  <button class="btn btn-sm btn-warning" (click)="onEdit(category.data.category, category.id)"> Edit</button>
+                  <button class="btn btn-sm btn-danger ml-2" (click)="onDelete(category.id)"> Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3"></div>
   </div>
 </div>
