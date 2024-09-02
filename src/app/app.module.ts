@@ -17,6 +17,7 @@ import { environment } from '../environments/environment.prod';
 import { CategoriesComponent } from './categories/categories.component';
 import { AllPostComponent } from './posts/all-post/all-post.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { NewPostComponent } from './posts/new-post/new-post.component';
     ReactiveFormsModule,
     ToastrModule.forRoot(), //para configurar el módulo a nivel global cuando lo importas en el módulo raíz de la aplicación. Esto significa que ngx-toastr se configurará de una vez y estará disponible para ser usado en cualquier parte de tu aplicación.
     BrowserAnimationsModule,
+    AngularEditorModule,
 
   ],
   providers: [
