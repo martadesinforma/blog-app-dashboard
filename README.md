@@ -31,7 +31,8 @@
 
 4. Uso de routerLink  (.html)
 
-5. Uso de Formularios Basados en Plantillas y validación de  formulario en el componente categories 
+5. Uso de Formularios Basados en Plantillas y validación de  formulario en el componente categories. Uso de formulario reactivo y validación de formulario en el componente new-post
 
 6. Uso del  paquete ngx-toastr al haber escrito en la terminal  `npm i ngx-toastr` y al haber escrito en los styles de angular.json `"node_modules/ngx-toastr/toastr.css"`. En app.module he hecho la importación del módulo ToastrModule.  Una vez que he registrado ToastrModule en AppModule, ToastrService se convierte en una dependencia inyectable en toda tu aplicación. Para usar las funcionalidades de ngx-toastr dentro de mi servicio categories.service.ts, he tenido que importar `ToastrService`. Para que se pueda usar correctamente, tambien he escrito en la terminal ` npm i @angular/platform-browser` y en app.module he importado ` BrowserAnimationsModule,`. Toastr sirve para mostrar notificaciones de tipo "toast" en tu aplicación. Estas notificaciones suelen aparecer en la esquina de la pantalla y se utilizan para mostrar mensajes breves, como alertas, advertencias, confirmaciones, entre otros.
 
+7. Uso del  paquete @kolkov/angular-editor al haber escrito en la terminal  `npm i @kolkov/angular-editor`. Este paquete es un editor WYSIWYG (What You See Is What You Get) para Angular, que permite a los usuarios crear y editar contenido enriquecido en una aplicación Angular, similar a lo que podrías hacer en un editor de texto como Microsoft Word. En app.module he hecho la importación del módulo AngularEditorModule y del modulo HttpClientModule para poder usar este paquete. En el angular.json he tenido que agregar en assets un objeto. Lo he usado en new-post.component.html
