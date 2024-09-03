@@ -3,19 +3,20 @@
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
       <h3 class="text-center text-theme-primary">New Categories</h3>
       <p class="text-center mb-5">You can add {{formStatus}} categories from here..!</p>
+<!--
+      #categoryForm: Esta variable permite hacer referencia al formulario desde dentro de la plantilla HTML.
 
-      <!-- #categoryForm: Esta variable permite hacer referencia al formulario desde dentro de la plantilla HTML.
+      ngForm: es una directiva que Angular proporciona. Es una directiva que transforma un elemento <form> en un formulario administrado por Angular, proporcionando funcionalidades como validación, seguimiento del estado de los controles, y manejo de los datos del formulario.
 
-           ngForm: es una directiva que Angular proporciona. Es una directiva que transforma un elemento <form> en un formulario administrado por Angular, proporcionando funcionalidades como validación, seguimiento del estado de los controles, y manejo de los datos del formulario.
+      ngModel vincula una referencia local (en este caso #newCategory) al `ngModel` de Angular, permitiendo acceder a las propiedades del modelo (como `touched`, `valid`, `invalid`, etc.) de este campo de entrada.
 
-           ngModel: es una directiva en Angular que permite el enlace de datos bidireccional entre el control del formulario (como un <input>, <select>, etc.) y el modelo de datos en el componente de Angular. El valor ingresado por el usuario se almacena automáticamente en el objeto de formulario bajo categoryForm.value.category.
+      [(ngModel)]: es una directiva en Angular que permite el enlace de datos bidireccional entre el control del formulario (como un <input>, <select>, etc.) y el modelo de datos en el componente de Angular.
 
-            El binding bidireccional [(ngModel)] permite sincronizar el valor de un campo de formulario con una propiedad en el componente. [(ngModel)]='formCategory' establece una relación bidireccional entre el campo de entrada y la propiedad formCategory en el componente TypeScript.
-
-           name="category": Define el nombre del campo en el formulario. Este nombre se usa como clave en el objeto de datos del formulario que se crea automáticamente. En este caso, el valor ingresado en este campo de entrada se almacenará bajo la clave category en el objeto que gestiona Angular.
-           -->
+      name="category": Asigna el nombre "category" al campo de entrada. Este nombre se usa cuando el formulario se envía al servidor, para identificar qué valor corresponde a esta entrada. -->
 
       <form class="form-inline text-center" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)"> <!-- Con #categoryForm="ngForm", el formulario completo, con todos sus controles e información de estado, puede ser accedido en la plantilla o pasado al componente de Angular como un objeto. En este caso, se pasa como argumento al método onSubmit cuando se envía el formulario. -->
+
+      <!-- Este es un enlace de dos vías (`[(ngModel)]`) que sincroniza el valor del campo de entrada con la propiedad `formCategory` en el componente de Angular. Si el usuario escribe algo, `formCategory` se actualiza automáticamente, y si `formCategory` cambia en el componente, el valor del campo de entrada también se actualiza. -->
         <div class="form-group col-md-10">
           <input
           type="text"
