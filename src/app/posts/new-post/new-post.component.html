@@ -1,31 +1,66 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h3 class="text-theme-primary"> Add New Post</h3>
-      <p class="mb-5"> You can add you new post here</p>
+      <h3 class="text-theme-primary"> {{formStatus}} Post</h3>
+      <p class="mb-5"> You can {{formStatus}} post here</p>
     </div>
   </div>
 
 <!-- Como buena práctica, se usa el título de la publicación para el enlace permanente "Permalink" -->
 
-  <form>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit(formStatus)">
     <div class="row">
       <div class="col-md-7">
         <div class="card shadow-effect">
           <div class="card-body">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" class="form-control" (keyup)="onTitleChanged($event)"> <!--El evento keyup se dispara cada vez que el usuario suelta una tecla después de presionarla. $event es un objeto que contiene información sobre el evento, como la tecla que fue presionada y el valor actual del campo de entrada. -->
+              <input
+              type="text"
+              class="form-control"
+              (keyup)="onTitleChanged($event)"
+              formControlName="title"
+              [ngClass]="{'is-invalid': formControl['title'].touched && formControl['title'].invalid }"
+              > <!--El evento keyup se dispara cada vez que el usuario suelta una tecla después de presionarla. $event es un objeto que contiene información sobre el evento, como la tecla que fue presionada y el valor actual del campo de entrada. -->
+              <div *ngIf="formControl['title'].errors?.['required']">
+                <div class="alert alert-danger" *ngIf="formControl['title'].touched && formControl['title'].invalid ">Title is required</div>
+              </div>
+              <div *ngIf="formControl['title'].errors?.['minlength']">
+                <div class="alert alert-danger" *ngIf="formControl['title'].touched && formControl['title'].invalid ">Title must be atleast 10 charactors long</div>
+              </div>
             </div>
 
             <div class="form-group">
               <label>Permalink</label>
-              <input type="text" class="form-control">
+              <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="permalink"
+              name="permalink"
+              formControlName="permalink"
+              [disabled]="true"
+              [ngClass]="{'is-invalid': formControl['permalink'].touched && formControl['permalink'].invalid }"
+              > <!--  sincroniza el valor del campo de entrada con la propiedad permalink en el componente de Angular. Si el usuario escribe algo, permalink se actualiza automáticamente, y si permalink cambia en el componente, el valor del campo de entrada también se actualiza. En este caso, permalink contiene el valor que ingresamos como titulo pero sin espacios. Este titulo sin espacios se reflejará como valor de este input  -->
+              <div *ngIf="formControl['permalink'].errors?.['required']">
+                <div class="alert alert-danger" *ngIf="formControl['permalink'].touched && formControl['permalink'].invalid">Permalink is required</div>
+              </div>
             </div>
 
             <div class="form-group">
               <label>Excerpt</label>
-              <textarea cols="30" rows="10" class="form-control"></textarea>
+              <textarea
+              cols="30"
+              rows="10"
+              class="form-control"
+              formControlName="excerpt"
+              [ngClass]="{'is-invalid': formControl['excerpt'].touched && formControl['excerpt'].invalid }"
+              ></textarea>
+              <div *ngIf="formControl['excerpt'].errors?.['required']">
+                <div class="alert alert-danger" *ngIf="formControl['excerpt'].touched && formControl['excerpt'].invalid ">Excerpt is required</div>
+              </div>
+              <div *ngIf="formControl['excerpt'].errors?.['minlength']">
+                <div class="alert alert-danger" *ngIf="formControl['excerpt'].touched && formControl['excerpt'].invalid ">Excerpt must be atleast 50 charactors long</div>
+              </div>
             </div>
           </div>
         </div>
@@ -34,14 +69,34 @@
       <div class="col-md-5">
         <div class="form-group">
           <label for="">Please Select a post category</label>
-          <select class="form-control">
+          <select
+          class="form-control"
+          formControlName="category"
+          >
             <option value="" disabled>Please Select a category</option>
+            <option *ngFor="let category of categories" value="{{category.id}}-{{category.data.category}}">{{category.data.category}}</option> <!--  category of categories se refiere a que category es cada documento de la colección categories de firebase  -->
           </select>
+          <div *ngIf="formControl['category'].errors?.['required']">
+            <div class="alert alert-danger" *ngIf="formControl['category'].touched && formControl['category'].invalid">Please select a post category</div>
+          </div>
         </div>
 
+        <!-- cuando pones [] alrededor de un atributo, estás vinculando ese atributo a una propiedad del componente. En este caso, [src] indica que el valor del atributo src se obtendrá dinámicamente desde una propiedad o expresión del componente. -->
         <div class="form-group">
           <label for="">Post Image</label>
-          <input type="file" class="form-control">
+          <img [src]="imgSrc" class="form-control img-fluid img-preview">
+          <input
+          type="file"
+          class="form-control"
+          formControlName="postImg"
+          accept="image/*"
+          (change)="showPreview($event)"
+          [ngClass]="{'is-invalid': formControl['postImg'].touched && formControl['postImg'].invalid }"
+          > <!-- (change) es un evento de Angular que se dispara cuando el valor del campo de entrada cambia, es decir, cuando el usuario selecciona un archivo.
+          $event es el objeto de evento que contiene información sobre la interacción del usuario, como el archivo seleccionado. -->
+          <div *ngIf="formControl['postImg'].errors?.['required']">
+            <div class="alert alert-danger" *ngIf="formControl['postImg'].touched && formControl['postImg'].invalid">Post Image is required</div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,14 +108,17 @@
           <div class="card-body">
             <div class="form-group">
               <label for=""> Content</label>
-              <textarea cols="30" rows="10" class="form-control"></textarea>
+              <angular-editor placeholder="Add your content here" formControlName="content"></angular-editor>
+              <div *ngIf="formControl['content'].errors?.['required']">
+                <div class="alert alert-danger" *ngIf="formControl['content'].touched && formControl['content'].invalid">Content is required</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="col-md-12 text-center mb-5">
-        <button class="btn btn-info bg-theme">Save Post</button>
+        <button class="btn btn-info bg-theme" [disabled]="postForm.invalid">{{formStatus}} Post</button>
         <button class="btn btn-warning ml-3" routerLink="/posts" >Back to Post</button>
       </div>
     </div>
