@@ -13,6 +13,7 @@
 
 2. Creación de servicios en la carpeta services
 - Categories service 
+- Posts service
 
 
 
@@ -27,7 +28,13 @@
 
 3. 1. Insertar, cargar, eliminar y editar  información en la base de datos de  Firestore mediante el  servicio categories y mostrar la información guardada en Firestore en nuestro componente categories mediante una tabla.
 
-3. 2. Insertar, cargar, eliminar y editar  información en la base de datos de  Firestore mediante el  servicio categories y mostrar la información guardada en Firestore en nuestro componente categories mediante una tabla. Trabajo adicional: algoritmos adicionales para la categoria seleccionada y como subir una imagen a firebase (cloud storage)
+3. 2. Almacenamiento de imagenes del usuario en Cloud Storage de la nube de Firebase y  obteneción de  la URL de descarga de esa imagen. Todo esto mediante el servicio posts. Uso de este servicio post en el componente new-post
+
+3. 3. Cargar  información en la base de datos de  Firestore mediante el  servicio posts y mostrar la información guardada en Firestore en nuestro componente all-post mediante una tabla.
+
+3. 4. Editar  información en la base de datos de  Firestore mediante el  servicio posts en nuestro componente new-post
+
+3. 5. Eliminar un post  en la base de datos de  Firestore y la imagen del Storage de Firestore mediante el  servicio posts en nuestro componente all-post
 
 4. Uso de routerLink  (.html)
 

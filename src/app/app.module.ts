@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import {provideStorage, getStorage } from '@angular/fire/storage';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -18,6 +19,8 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AllPostComponent } from './posts/all-post/all-post.component';
 import { NewPostComponent } from './posts/new-post/new-post.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +30,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DashboardComponent,
     CategoriesComponent,
     AllPostComponent,
-    NewPostComponent
+    NewPostComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,11 +40,15 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     ToastrModule.forRoot(), //para configurar el módulo a nivel global cuando lo importas en el módulo raíz de la aplicación. Esto significa que ngx-toastr se configurará de una vez y estará disponible para ser usado en cualquier parte de tu aplicación.
     BrowserAnimationsModule,
     AngularEditorModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+
 
   ],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // Inicializa Firebase
     provideFirestore(()=> getFirestore()), // Importa y configura Firestore
+    provideStorage(()=> getStorage()),    // proporciona una interfaz para interactuar con Firebase Storage dentro de aplicaciones Angular. Firebase Storage permite almacenar y servir archivos, como imágenes, videos y otros contenidos generados por el usuario.
   ],
   bootstrap: [AppComponent]
 })
