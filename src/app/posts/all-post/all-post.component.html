@@ -12,4 +12,45 @@
       </div>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow-effect">
+        <div class="card-body">
+          <table class="table row-border hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Post Image</th>
+                <th>Title</th>
+                <!-- <th>Excerpt</th> -->
+                <th>Category</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+
+            <tbody>
+              <tr *ngFor="let post of postArray; let i=index">
+                <td width="10">{{i + 1}}</td>
+                <td width="200"><img src="{{post.postImgPath}}" class="img img-fluid" alt=""></td>
+                <td width="100">{{post.title}}</td>
+                <!-- <td width="400">{{post.excerpt}}</td> -->
+                <td>{{post.category.category}}</td>
+                <td>{{post.createdAt.toMillis() | date}}</td> <!-- El método toMillis() convierte este objeto Timestamp en un número que representa la fecha en milisegundos. El pipe date en Angular se utiliza para formatear una fecha o un número de milisegundos en un formato de fecha legible-->
+                <td>
+                  <button class="btn btn-sm btn-warning" routerLink="/posts/new" [queryParams]="{id:post.id}">Edit</button> <!-- se usa el queryParams, para que cuando tu le des al botón Edit de un post, te lleve a una url que contiene el id en específico de ese post, una url como esta: http://localhost:4200/posts/new?id=5XGQxPRUk8UmexChS9Y6. Quiero usar este id único de cada post para recuperar los datos del post de Firestore Database-->
+                  <button class="btn btn-sm btn-danger ml-2" (click)="onDelete(post.postImgPath, post.id!)"> Delete</button>
+
+                  <button *ngIf="!post.isFeatured" class="btn btn-sm btn-success ml-2" (click)="onFeatured( post.id!, true)"> Mark Featured</button>
+                  <button *ngIf="post.isFeatured" class="btn btn-sm btn-info ml-2" (click)="onFeatured( post.id!, false)"> Remove Featured</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
