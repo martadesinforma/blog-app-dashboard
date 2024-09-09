@@ -35,7 +35,7 @@ export class CategoriesComponent implements OnInit {
     let categoryData: Category = {
       category: formData.value.category
     }
-    console.log(categoryData) //muestra:  { category: "palabra ingresada por el input del formulario" }
+    console.log(formData) //muestra:  { category: "palabra ingresada por el input del formulario" }
 
     if (this.formStatus === 'Add') {
       this.categoryService.saveData(categoryData) //hago uso de la función saveData() del servicio CategoriesService pasandole como argumento el objeto categoryData que tiene la clave category donde se almacena el valor que el usuario  ingresa por el input

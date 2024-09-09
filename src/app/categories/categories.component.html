@@ -3,38 +3,41 @@
     <div class="col-md-12 bg-secondary-theme p-5 shadow-effect">
       <h3 class="text-center text-theme-primary">New Categories</h3>
       <p class="text-center mb-5">You can add {{formStatus}} categories from here..!</p>
-<!--
+      <!--
       #categoryForm: Esta variable permite hacer referencia al formulario desde dentro de la plantilla HTML.
 
       ngForm: es una directiva que Angular proporciona. Es una directiva que transforma un elemento <form> en un formulario administrado por Angular, proporcionando funcionalidades como validación, seguimiento del estado de los controles, y manejo de los datos del formulario.
 
+      name="category": Asigna el nombre "category" al campo de entrada. Este nombre se usa cuando el formulario se envía al servidor, para identificar qué valor corresponde a esta entrada. Cuando el formulario se envía, Angular toma los valores de todos los inputs que tienen name, y los guarda en el objeto del formulario. En este caso, el valor ingresado en el input se almacenará en categoryForm.value.category.  Este valor solo estará disponible una vez que el formulario se haya enviado. Es decir, no tienes acceso al valor en tiempo real a menos que envíes el formulario completo
+
+
       ngModel vincula una referencia local (en este caso #newCategory) al `ngModel` de Angular, permitiendo acceder a las propiedades del modelo (como `touched`, `valid`, `invalid`, etc.) de este campo de entrada.
 
-      [(ngModel)]: es una directiva en Angular que permite el enlace de datos bidireccional entre el control del formulario (como un <input>, <select>, etc.) y el modelo de datos en el componente de Angular.
+      [(ngModel)]: es una directiva en Angular que permite el enlace de datos bidireccional entre el control del formulario (como un <input>, <select>, etc.) y el modelo de datos en el componente de Angular. Este es un enlace de dos vías (`[(ngModel)]`) que sincroniza el valor del campo de entrada con la propiedad `formCategory` en el componente de Angular. Si el usuario escribe algo, `formCategory` se actualiza automáticamente, y si `formCategory` cambia en el componente, el valor del campo de entrada también se actualiza. Esto significa que no necesitas enviar el formulario para obtener o modificar el valor de formCategory. De esta forma, puedes manipular el valor del campo directamente en el componente sin necesidad de enviar el formulario.
 
-      name="category": Asigna el nombre "category" al campo de entrada. Este nombre se usa cuando el formulario se envía al servidor, para identificar qué valor corresponde a esta entrada. -->
+      Solo name="category": El valor del input solo se capturará cuando envíes el formulario. En ese momento, podrás acceder a categoryForm.value.category en el controlador del componente.
 
-      <form class="form-inline text-center" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)"> <!-- Con #categoryForm="ngForm", el formulario completo, con todos sus controles e información de estado, puede ser accedido en la plantilla o pasado al componente de Angular como un objeto. En este caso, se pasa como argumento al método onSubmit cuando se envía el formulario. -->
+      Con [(ngModel)]="formCategory": Puedes acceder y manipular el valor del input en tiempo real, sin necesidad de enviar el formulario. Esto es útil cuando necesitas realizar cambios o validaciones dinámicas, o cuando quieres reaccionar a lo que el usuario ingresa sin esperar a que envíe el formulario.
+      -->
 
-      <!-- Este es un enlace de dos vías (`[(ngModel)]`) que sincroniza el valor del campo de entrada con la propiedad `formCategory` en el componente de Angular. Si el usuario escribe algo, `formCategory` se actualiza automáticamente, y si `formCategory` cambia en el componente, el valor del campo de entrada también se actualiza. -->
+      <form class="form-inline text-center" #categoryForm="ngForm" (ngSubmit)="onSubmit(categoryForm)">
+        <!-- Con #categoryForm="ngForm", el formulario completo, con todos sus controles e información de estado, puede ser accedido en la plantilla o pasado al componente de Angular como un objeto. En este caso, se pasa como argumento al método onSubmit cuando se envía el formulario. -->
+
+
         <div class="form-group col-md-10">
-          <input
-          type="text"
-          class="form-control shadow-effect"
-          name="category"
-          placeholder="Add New Categories"
-          #newCategory='ngModel'
-         [(ngModel)]="formCategory"
-          required
-          [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}"
-          > <!-- El valor que el usuario ingresa en este campo se almacena en la propiedad category del objeto de datos del formulario. Imagina que el usuario ingresa "Electronics" en el campo de entrada. Gracias a ngModel, el valor "Electronics" se asigna automáticamente a categoryForm.value.category -->
+          <input type="text" class="form-control shadow-effect" name="category" placeholder="Add New Categories"
+            #newCategory='ngModel' [(ngModel)]="formCategory" required
+            [ngClass]="{'is-invalid': newCategory.touched && newCategory.invalid}">
+
           <div class="alert alert-danger" *ngIf="newCategory.touched && newCategory.invalid">
             Category field is required
           </div>
         </div>
 
         <div class="col-md-2">
-          <button class="btn btn-block btn-info mb-2 btn-theme" [disabled]="categoryForm.invalid">{{formStatus}} Catgerory</button> <!-- Desactiva el botón de envío si el formulario es inválido (si el campo "category" está vacío). -->
+          <button class="btn btn-block btn-info mb-2 btn-theme" [disabled]="categoryForm.invalid">{{formStatus}}
+            Catgerory</button>
+          <!-- Desactiva el botón de envío si el formulario es inválido (si el campo "category" está vacío). -->
         </div>
       </form>
     </div>
@@ -60,7 +63,8 @@
                 <td>{{i + 1}}</td>
                 <td>{{category.data.category}}</td>
                 <td>
-                  <button class="btn btn-sm btn-warning" (click)="onEdit(category.data.category, category.id)"> Edit</button>
+                  <button class="btn btn-sm btn-warning" (click)="onEdit(category.data.category, category.id)">
+                    Edit</button>
                   <button class="btn btn-sm btn-danger ml-2" (click)="onDelete(category.id)"> Delete</button>
                 </td>
               </tr>
