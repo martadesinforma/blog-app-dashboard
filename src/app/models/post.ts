@@ -1,4 +1,7 @@
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface Post {
+  id?:string;
   title: string,
   permalink: string,
   category: {
@@ -11,5 +14,5 @@ export interface Post {
   isFeatured: boolean,
   views: number,
   status: string,
-  createdAt: Date,
+  createdAt: Timestamp,
 }
