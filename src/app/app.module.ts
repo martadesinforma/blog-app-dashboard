@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import {provideStorage, getStorage } from '@angular/fire/storage';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -51,6 +53,7 @@ import { LoginComponent } from './auth/login/login.component';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // Inicializa Firebase
     provideFirestore(()=> getFirestore()), // Importa y configura Firestore
     provideStorage(()=> getStorage()),    // proporciona una interfaz para interactuar con Firebase Storage dentro de aplicaciones Angular. Firebase Storage permite almacenar y servir archivos, como imágenes, videos y otros contenidos generados por el usuario.
+    provideAuth(() => getAuth()),//provee el servicio de autenticación (Auth) de Firebase para que pueda ser utilizado en toda la aplicación
   ],
   bootstrap: [AppComponent]
 })
