@@ -34,7 +34,7 @@ export class CategoriesService {
     return collectionData(categoriesCollection, { idField: 'id' }).pipe( //collectionData: Función que se utiliza para obtener los datos de la colección. En este caso, quiero obtener datos de la colección 'categories'. Quiero incluir el ID del documento en los datos resultantes.
       map(docs => docs.map(doc => { //docs: Es el array de documentos que obtuviste de la colección.
         const { id, ...data } = doc; //const { id, ...data } = doc;: Desestructuración del objeto doc. Extrae el campo id y el resto de los datos se agrupan en data.
-        return { id, data }; //return { id, data };: Retorna un nuevo objeto que contiene el id y los data. Se veria de esta forma: [{data: {category: 'hola'} id: "m1VjCvgL6PFXULVTyvKN" }]
+        return { id, data }; //return { id, data };: Retorna un nuevo objeto que contiene el id y los data. Se veria de esta forma: [{data: {category: 'hola'} id: "m1VjCvgL6PFXULVTyvKN" }, {data: {category: 'uri'} id: "Zotz2wMaJwVVZn1J79Ws" },  ]
       }))
     );
   }
