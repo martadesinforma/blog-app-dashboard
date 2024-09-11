@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +12,19 @@ export class HeaderComponent implements OnInit {
   userEmail: string = '';
   isLoggedIn$!: Observable<boolean>;
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.userEmail= JSON.parse(localStorage.getItem('user')!).email;
-    this.isLoggedIn$ = this.authService.isLoggedIn() //isLoggedIn$ es un Observable<boolean> por lo que cuando lo usemos en el header.component.html nos tenemos que suscribir.
+
+
+
+    this.isLoggedIn$ = this.authService.isLoggedIn().pipe(tap((isLoggedIn)=>{ //tap permite ejecutar código en cada emisión del observable, pero no altera el valor emitido.
+      if (isLoggedIn) {
+        this.userEmail = JSON.parse(localStorage.getItem('user')!).email;
+      }else{
+        this.userEmail = '';
+      }
+    })); //isLoggedIn$ es un Observable<boolean> por lo que cuando lo usemos en el header.component.html nos tenemos que suscribir.
   }
 
   onLogOut() {
