@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
 
   loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // Un BehaviorSubject es un tipo especial de Observable que siempre almacena el último valor emitido y lo devuelve inmediatamente a cualquier suscriptor nuevo. El BehaviorSubject se utiliza para rastrear y emitir el estado de si el usuario está o no autenticado (logged in). Usas el método .next() del BehaviorSubject para emitir un nuevo valor. Por ejemplo, cuando el usuario inicie o cierre sesión, puedes actualizar el estado de autenticación.
+  isLoggedInGuard: boolean = false; //cuando el usuario se autentica en el login, isLoggedInGUard pasa a ser true y cuando el usuario cierra sesión, isLoggedInGUard pasa a ser false
 
   constructor(private auth: Auth, private toastr: ToastrService, private router: Router) {
 
@@ -20,17 +21,17 @@ export class AuthService {
   login(email: string, password: string) {
     // Llamada a signInWithEmailAndPassword, que  espera los argumentos email y contraseña
     return signInWithEmailAndPassword(this.auth, email, password)
-      .then(logRef=> {
+      .then(logRef => {
         // Login exitoso
         this.toastr.success('Logged In Successfully!');
         this.loadUser();
-        this.loggedIn.next(true); //para actualizar el estado de autenticación.
+        this.isLoggedInGuard = true;
         this.router.navigate(['/']); //Si el usuario ha ingresado usuario y contraseña válidas que coinciden con las configuradas en Firebase Authentication, será redirigido a la URL '/'
 
       })
       .catch(error => {
         // Manejo del error
-        this.toastr.warning( error);
+        this.toastr.warning(error);
       });
   }
 
@@ -38,7 +39,11 @@ export class AuthService {
   loadUser() {
     authState(this.auth).subscribe(user => { // authState es un observable que emite el estado del usuario autenticado en Authentication de Firebase
       //quiero grabar en el LocalStorage user  bajo el nombre user. la variable user va a contener un objeto con la información en el LocalStorage
+      if (user) {
         localStorage.setItem('user', JSON.stringify(user));
+        this.loggedIn.next(true); //para actualizar el estado de autenticación.
+      }
+
     });
   }
 
@@ -50,6 +55,7 @@ export class AuthService {
         this.toastr.success('User Logged Out Successfully!');
         localStorage.removeItem('user');
         this.loggedIn.next(false); //para actualizar el estado de autenticación.
+        this.isLoggedInGuard = false;
         this.router.navigate(['/login']);
       })
   }
