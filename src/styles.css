@@ -49,7 +49,7 @@
   color: var(--primary-color);
 }
 
-input[type=  text], input[type = email] {
+input[type=  text], input[type = email], input[type = password] {
   height: 60px;
   padding-left: 20px;
   width: 100%;
@@ -58,7 +58,6 @@ input[type=  text], input[type = email] {
 .btn-theme {
   height: 58px;
   border: none;
-  font-size: 13px;
   background-color:var(--primary-color) ;
 }
 

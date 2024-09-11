@@ -1,7 +1,6 @@
 ## Estructura de esta aplicación:
 
-1. Creación de los siguientes componentes :
-- Login Component
+1. Creación de los siguientes componentes:
 - Subcription-form Component
 - Comment Component
 
@@ -10,12 +9,21 @@
 - Dashboard Component
 - Header Component en la carpeta layouts
 - Footer Component en la carpeta layouts
+- Login Component en la carpeta auth
 
-2. Creación de servicios en la carpeta services
+2. Creación de servicios y guard en la carpeta services
 - Categories service 
 - Posts service
+- Auth service
+- Auth guard
 
+3. Creación de interfaces en la carpeta models:
+- Category interface
+- Post interface
 
+4. Creación de la carpeta environments
+- environment.prod.ts
+- environment.ts
 
 
 ## Este es un breve listado del contenido del proyecto:
@@ -36,10 +44,17 @@
 
 3. 5. Eliminar un post  en la base de datos de  Firestore y la imagen del Storage de Firestore mediante el  servicio posts en nuestro componente all-post
 
+3. 6. Uso de Authentication de Firebase en Angular en el servicio auth y en el componente login y header. En el servicio auth vamos a capturar los datos de los usuario registrados en Authentication de  Firebase y los vamos a guardar en el LocalStorage. Estos datos los vamos a recuperar del LocalStorage en el componente header.
+
 4. Uso de routerLink  (.html)
 
-5. Uso de Formularios Basados en Plantillas y validación de  formulario en el componente categories. Uso de formulario reactivo y validación de formulario en el componente new-post
+5. Uso de Formularios Basados en Plantillas y validación de  formulario en el componente categories y en el componente login. Uso de formulario reactivo y validación de formulario en el componente new-post
 
 6. Uso del  paquete ngx-toastr al haber escrito en la terminal  `npm i ngx-toastr` y al haber escrito en los styles de angular.json `"node_modules/ngx-toastr/toastr.css"`. En app.module he hecho la importación del módulo ToastrModule.  Una vez que he registrado ToastrModule en AppModule, ToastrService se convierte en una dependencia inyectable en toda tu aplicación. Para usar las funcionalidades de ngx-toastr dentro de mi servicio categories.service.ts, he tenido que importar `ToastrService`. Para que se pueda usar correctamente, tambien he escrito en la terminal ` npm i @angular/platform-browser` y en app.module he importado ` BrowserAnimationsModule,`. Toastr sirve para mostrar notificaciones de tipo "toast" en tu aplicación. Estas notificaciones suelen aparecer en la esquina de la pantalla y se utilizan para mostrar mensajes breves, como alertas, advertencias, confirmaciones, entre otros.
 
 7. Uso del  paquete @kolkov/angular-editor al haber escrito en la terminal  `npm i @kolkov/angular-editor`. Este paquete es un editor WYSIWYG (What You See Is What You Get) para Angular, que permite a los usuarios crear y editar contenido enriquecido en una aplicación Angular, similar a lo que podrías hacer en un editor de texto como Microsoft Word. En app.module he hecho la importación del módulo AngularEditorModule y del modulo HttpClientModule para poder usar este paquete. En el angular.json he tenido que agregar en assets un objeto. Lo he usado en new-post.component.html
+
+
+
+
+8. Uso de Guard:  canDeactivate (app.routes.ts). Queremos acceder a la página principal y al resto de páginas (excepto la página de login) solo si el usuario inició sesión. De lo contrario quiero bloquear el acceso a la página principal y a las demás páginas y que me redirija a la página de login, para que solo pueda acceder a las demás páginas si esta logeado.
