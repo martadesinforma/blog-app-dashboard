@@ -81,46 +81,18 @@ export class PostsService {
       });
   }
 
-  //FUNCION TB FALLIDA
-  updateDataNew(id: string, postData: any, newImage: any, oldImagePath: string): Promise<void> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        // 1. Si existe una imagen anterior, eliminarla de Firebase Storage
-        if (oldImagePath) {
-          const oldImageRef = ref(this.storage, oldImagePath); // Referencia a la imagen anterior
-          await deleteObject(oldImageRef);
-          console.log('Old image deleted successfully');
-        }
 
-        // 2. Subir la nueva imagen al Storage
-        const newImagePath = `postIMG/${Date.now()}`; // Genera una ruta única para la nueva imagen
-        const newImageRef = ref(this.storage, newImagePath); // Crea una referencia para la nueva imagen
-        const uploadTask = await uploadBytes(newImageRef, newImage); // Sube la nueva imagen
-        console.log('New image uploaded successfully');
-
-        // 3. Obtener la URL de la nueva imagen
-        const newImageUrl = await getDownloadURL(newImageRef);
-
-        // 4. Actualizar el postData con la nueva URL de la imagen
-        postData.postImgPath = newImageUrl;
-
-        // 5. Actualizar el documento en Firestore
-        const docRef = doc(this.firestore, `posts/${id}`);
-        await updateDoc(docRef, postData);
-
-        // 6. Mensaje de éxito y navegación
-        this.toastr.success('Data and image updated successfully!');
-        this.router.navigate(['/posts']);
-
-        resolve(); // Resolver la promesa
-      } catch (error) {
-        console.error('Error updating data or image: ', error);
-        this.toastr.error('Error updating data: ' + error);
-        reject(error); // Rechazar la promesa en caso de error
-      }
-    });
+  //Esta función  está diseñada para eliminar una imagen específica de un post en el Storage de  Firestore.
+  deleteImage(path: string) {
+    const storageRef = ref(this.storage, path); // Crea una referencia a la imagen en Firebase Storage
+    deleteObject(storageRef) // Elimina la imagen del Storage
+      .then(() => {
+        console.log('Image deleted successfully');
+      })
+      .catch((error) => {
+        console.error('Error deleting image: ', error);
+      });
   }
-
 
 
 
