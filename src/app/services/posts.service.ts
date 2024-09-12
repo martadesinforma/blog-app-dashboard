@@ -82,7 +82,7 @@ export class PostsService {
   }
 
 
-  //Esta función  está diseñada para eliminar una imagen específica de un post en el Storage de  Firestore.
+  //Esta función  está diseñada para eliminar una imagen específica de un post en el Storage de  Firestore. Se va a utilizar en el componente new-post
   deleteImage(path: string) {
     const storageRef = ref(this.storage, path); // Crea una referencia a la imagen en Firebase Storage
     deleteObject(storageRef) // Elimina la imagen del Storage
