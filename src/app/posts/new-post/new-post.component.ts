@@ -19,8 +19,8 @@ export class NewPostComponent implements OnInit {
   categories: Array<any> = [];
   postForm!: FormGroup;
   post!: Post;
-  formStatus:string = 'Add New';
-  docId:string= '';
+  formStatus: string = 'Add New';
+  docId: string = '';
 
   constructor(
     private catgoryService: CategoriesService,
@@ -44,7 +44,7 @@ export class NewPostComponent implements OnInit {
 
       this.docId = params['id'];
 
-      if(!params['id']) return; //si no existe el id en los params (esto quiere decir que la url luce asi:http://localhost:4200/posts/new ), entonces se sale de la función y el formularios no tendrá los valores por defecto ya seteados con los valores del post sino que sus valores serán ''
+      if (!params['id']) return; //si no existe el id en los params (esto quiere decir que la url luce asi:http://localhost:4200/posts/new ), entonces se sale de la función y el formularios no tendrá los valores por defecto ya seteados con los valores del post sino que sus valores serán ''
 
       this.postService.loadOneData(params['id']).subscribe(post => {
         console.log(post) //post luce así: {excerpt: 'El pipe date en Angular se utiliza para formatear..., views: 0, category: {…}, title: 'marta oacaña martin', isFeatured: false, id: "5XGQxPRUk8UmexChS9Y6"...}
@@ -61,8 +61,12 @@ export class NewPostComponent implements OnInit {
         });
 
         this.imgSrc = this.post.postImgPath;
+        this.postForm.get('postImg')?.clearValidators(); // Remover el validador required de postImg. No quiero que sea obligatorio tener que subir una nueva imagen para poder enviar el formulario cuando estamos editando el post.
+        this.postForm.get('postImg')?.updateValueAndValidity(); // Actualizar el estado de validación
 
         this.formStatus = 'Edit'
+
+
       });
     });
   }
@@ -99,7 +103,7 @@ export class NewPostComponent implements OnInit {
   }
 
 
-  async onSubmit(formStatus:string) { //convertimos esta funcion en una promesa asincrona con async para poder usar dentro el await.
+  async onSubmit(formStatus: string) { //convertimos esta funcion en una promesa asincrona con async para poder usar dentro el await.
     let splitted = this.postForm.value.category.split('-'); //splitted tiene un valor de este tipo: ['EMElfUy1NoNs3OPkNlAB', 'hola'] donde el primer valor del array es el id y el segundo es la data de category
 
     const postData: Post = {
@@ -109,7 +113,7 @@ export class NewPostComponent implements OnInit {
         categoryId: splitted[0],
         category: splitted[1],
       },
-      postImgPath: '',
+      postImgPath: this.selectedImg ? '': this.post.postImgPath, //cuando en el formulario subo una imagen (ya sea pq subo un archivo de 0 o pq edito una imagen existente), selectedImg tiene valor vacio que se rellenrá mas tarde con la url generada. Si estoy editando pero no he cargado una nueva imagen, postImgPath tiene el valor del post original
       excerpt: this.postForm.value.excerpt,
       content: this.postForm.value.content,
       isFeatured: false,
@@ -118,11 +122,11 @@ export class NewPostComponent implements OnInit {
       createdAt: Timestamp.fromDate(new Date()),
     }
 
+    if (this.selectedImg) { //esto sucede cuando  he cargado una nueva imagen que selectedImg tiene como valor un archivo
+      const url = await this.postService.uploadImage(this.selectedImg); //cuando llamo a uploadImage, obtengo una promesa, por eso puedo usar el await para "esperar" a que la promesa se resuelva. Cuando se resuelve esta promesa, se obtiene  la URL de descarga del archivo almacenado en el storage de Firebase.
 
-    const url = await this.postService.uploadImage(this.selectedImg); //cuando llamo a uploadImage, obtengo una promesa, por eso puedo usar el await para "esperar" a que la promesa se resuelva. Cuando se resuelve esta promesa, se obtiene  la URL de descarga del archivo almacenado en el storage de Firebase.
-
-    postData.postImgPath = url; //postImgPath luce: "https://firebasestorage.googleapis.com/v0/b/blog-app-dashboard-6797b.appspot.com/o/postIMG%2
-    console.log(postData)
+      postData.postImgPath = url; //postImgPath luce: "https://firebasestorage.googleapis.com/v0/b/blog-app-dashboard-6797b.appspot.com/o/postIMG%2
+    }
 
 
     /*  Si en vez de utilizar el await para esperar a que la promesa se resuleva y obtener el valor de la promesa usase  el método then para manejar una promesa, el código dentro de then se ejecuta después.  Como then es una operación asincrónica, la ejecución del código continúa sin esperar a que la promesa se resuelva. Es decir, antes de obtener el valor de la promesa, ya se ha ejecutado el return postData, por lo que postData.postImgPath todavía es undefined:
@@ -132,10 +136,15 @@ export class NewPostComponent implements OnInit {
      */
 
 
-    if(formStatus === 'Edit') {
-     /*  this.postService.updateData(this.docId, postData) */ //para que cuando ya se han modificado todos los input de postData por parte del usuario, se actualice el valor de postData en la Database de Firestore y la imagen en el Storage de Firestore
-     this.postService.updateDataNew(this.docId, postData, this.selectedImg, postData.postImgPath);
-    }else {
+    if (formStatus === 'Edit') {
+
+
+      if(this.selectedImg){ //si cargas una nueva imagen sectedImg tiene como valor un archivo. Me interesa borrar la iamgen anterior del Storage. Si no tiene valor es porque la imagen no se ha editado y no  tengo que borrarla del storage.
+        const path = this.post.postImgPath; //esta es la url de la imagen original que quiero borrar del storage
+        this.postService.deleteImage(path); //para borrar la viea imagen del storage
+      }
+      this.postService.updateData(this.docId, postData); //para que cuando ya se han modificado todos los input de postData por parte del usuario, se actualice el valor de postData en la Database de Firestore y la imagen en el Storage de Firestore
+    } else {
       this.postService.saveData(postData); //para que cuando ya se ha configurado postData con el valor de la url en la propiedad postImgPath, se guarde el valor de postData en la Database de Firestore
     }
 
