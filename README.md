@@ -1,12 +1,12 @@
 ## Estructura de esta aplicación:
 
 1. Creación de los siguientes componentes:
-<!-- - Subcription-form Component
-- Comment Component -->
+
 
 - all-post Component, new-post Component en la carpeta posts
 - Categories Component
 - Dashboard Component
+- Subscribers Component
 - Header Component en la carpeta layouts
 - Footer Component en la carpeta layouts
 - Login Component en la carpeta auth
@@ -15,6 +15,7 @@
 - Categories service 
 - Posts service
 - Auth service
+- Subscribers service
 - Auth guard
 
 3. Creación de interfaces en la carpeta models:
@@ -45,6 +46,8 @@
 3. 5. Eliminar un post  en la base de datos de  Firestore y la imagen del Storage de Firestore mediante el  servicio posts en nuestro componente all-post
 
 3. 6. Uso de Authentication de Firebase en Angular en el servicio auth y en el componente login y header. En el servicio auth vamos a capturar los datos de los usuario registrados en Authentication de  Firebase y los vamos a guardar en el LocalStorage. Estos datos los vamos a recuperar del LocalStorage en el componente header.
+
+3. 7. Insertar, cargar, eliminar   información en la base de datos de  Firestore mediante el  servicio subscriber y mostrar la información guardada en Firestore en nuestro componente subscribers mediante una tabla.
 
 4. Uso de routerLink  (.html)
 
