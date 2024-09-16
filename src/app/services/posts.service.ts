@@ -7,6 +7,8 @@ import { Post } from '../models/post';
 import { Router } from '@angular/router';
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -132,6 +134,8 @@ export class PostsService {
       this.toastr.success('FeaturedData Updated Successfully!');
     })
   }
+
+
 
 
 }
