@@ -1,8 +1,8 @@
 ## Estructura de esta aplicación:
 
 1. Creación de los siguientes componentes:
-- Subcription-form Component
-- Comment Component
+<!-- - Subcription-form Component
+- Comment Component -->
 
 - all-post Component, new-post Component en la carpeta posts
 - Categories Component
