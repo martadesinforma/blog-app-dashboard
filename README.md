@@ -17,6 +17,7 @@ export const environment = {
 ```
 3. Ejecutar npm install
 4. Ejecutar la app ng serve -o
+5. Para uso de la aplicación usar esta cuenta: `marta@gmail.com` y la contraseña `123456`
 
 ## Estructura de esta aplicación:
 
