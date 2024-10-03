@@ -1,8 +1,22 @@
 ## Pasos a seguir para hacer uso de este proyecto
 
 1. Clonar el proyecto
-2. Ejecutar npm install
-3. Ejecutar la app ng serve -o
+2. Copiar este código de configuración de firebase en el archivo environment.prod.ts
+```typescript
+export const environment = {
+  production: true,
+  firebaseConfig: {
+    apiKey: "AIzaSyBL02IMmk19y4jTDFkQMOiUdOUB2qjs53U",
+    authDomain: "blog-app-dashboard-6797b.firebaseapp.com",
+    projectId: "blog-app-dashboard-6797b",
+    storageBucket: "blog-app-dashboard-6797b.appspot.com",
+    messagingSenderId: "633780146277",
+    appId: "1:633780146277:web:9fa756b55eacedb19f768c"
+  }
+}
+```
+3. Ejecutar npm install
+4. Ejecutar la app ng serve -o
 
 ## Estructura de esta aplicación:
 
