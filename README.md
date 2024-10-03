@@ -1,3 +1,9 @@
+## Pasos a seguir para hacer uso de este proyecto
+
+1. Clonar el proyecto
+2. Ejecutar npm install
+3. Ejecutar la app ng serve -o
+
 ## Estructura de esta aplicación:
 
 1. Creación de los siguientes componentes:
